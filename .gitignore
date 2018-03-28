@@ -1,0 +1,10 @@
+.atom-build.yml
+bin
+obj
+/.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide
+/.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide-wal
+/.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide-shm
+/.vs/ElvenMinstrelSetList/v15/Server/sqlite3/db.lock
+/lib/MahApps.Metro.dll
+/lib/HearthstoneDeckTracker.exe
+/lib/HearthDb.dll
