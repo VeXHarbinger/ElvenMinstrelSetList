@@ -66,6 +66,7 @@
         public void Reset()
         {
             Cards = new List<Card>();
+            View.Update(Cards, true);
             StatsLabel.Text = "";
         }
 
@@ -86,13 +87,16 @@
 
             if (match != null)
             {
-                Cards.Remove(match);
-                card = match.Clone() as Card;
+                //Cards.Remove(match);
+                //card = match.Clone() as Card;
                 card.Count++;
             }
+            else
+            {
+                Cards.Add(card);
+            }
 
-            // Update View
-            Cards.Add(card);
+            // Update View Cards.Add(card);
             View.Update(Cards, false);
             Label.Visibility = Visibility.Visible;
 

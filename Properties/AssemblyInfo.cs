@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following set of attributes.
 // Change these attribute values to modify the information associated with an assembly.
 [assembly: AssemblyTitle("The Elven Minstrel SetList Plugin for Hearthstone Tracker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Generates a scoped view to see the possible draw results when playing the Elven Minstrel")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("High Falootin Technology, Corporation")]
-[assembly: AssemblyProduct("ElvenMinstrelSetList.Properties")]
-[assembly: AssemblyCopyright("2018")]
+[assembly: AssemblyProduct("ElvenMinstrelSetList")]
+[assembly: AssemblyCopyright("High Falootin Technology Corporation 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -23,5 +23,5 @@ using System.Runtime.InteropServices;
 // Version information for an assembly consists of the following four values:
 //
 // Major Version Minor Version Build Number Revision
-[assembly: AssemblyVersion("0.0.5.1904")]
+[assembly: AssemblyVersion("0.0.20.0542")]
 [assembly: AssemblyFileVersion("0.0.0.0")]

@@ -38,7 +38,10 @@
         {
             // Create set List container
             setListView = new SetListView();
+            setListView.MinHeight = 200;
             setListView.Orientation = Orientation.Vertical;
+            setListView.Focusable = false;
+
             ResetSetList();
             Core.OverlayCanvas.Children.Add(setListView);
             Canvas.SetTop(setListView, Settings.Default.SetlistTop);
@@ -69,6 +72,14 @@
         {
             Core.OverlayCanvas.Children.Remove(setListView);
             Input.Dispose();
+        }
+
+        /// <summary>
+        /// Resets the card set list.
+        /// </summary>
+        public void ResetSetList()
+        {
+            setListView.Reset();
         }
 
         /// <summary>
@@ -128,14 +139,6 @@
         private void ResetSetList(Card obj)
         {
             ResetSetList();
-        }
-
-        /// <summary>
-        /// Resets the card set list.
-        /// </summary>
-        private void ResetSetList()
-        {
-            setListView.Reset();
         }
 
         /// <summary>
