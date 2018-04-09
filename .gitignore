@@ -1,6 +1,7 @@
 .atom-build.yml
 bin
 obj
+packages
 /.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide
 /.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide-wal
 /.vs/ElvenMinstrelSetList/v15/Server/sqlite3/storage.ide-shm
