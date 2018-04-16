@@ -1,17 +1,17 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using MahApps.Metro.Controls;
-using Hearthstone_Deck_Tracker;
-using Hearthstone_Deck_Tracker.API;
-using Hearthstone_Deck_Tracker.Hearthstone;
-using Core = Hearthstone_Deck_Tracker.API.Core;
-using System.Windows.Controls.Primitives;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Forms;
-
-namespace ElvenMinstrelSetList
+﻿namespace ElvenMinstrelSetList
 {
+    using MahApps.Metro.Controls;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using Core = Hearthstone_Deck_Tracker.API.Core;
+
+    /// <summary>
+    /// The HDT Plug-in <see cref="SettingsView">Settings View</see> for user plugin configuration
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.ScrollViewer"/>
+    /// <seealso cref="System.Windows.Markup.IComponentConnector"/>
     public partial class SettingsView : ScrollViewer
     {
         private static Flyout flyout;
@@ -26,6 +26,9 @@ namespace ElvenMinstrelSetList
         /// </summary>
         private SetListWindow setListWindow;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsView"/> class.
+        /// </summary>
         public SettingsView()
         {
             InitializeComponent();

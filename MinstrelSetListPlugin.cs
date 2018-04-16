@@ -1,12 +1,9 @@
 ﻿namespace ElvenMinstrelSetList
 {
+    using Hearthstone_Deck_Tracker.Plugins;
     using System;
-    using System.Linq;
     using System.Reflection;
     using System.Windows.Controls;
-    using Hearthstone_Deck_Tracker.Plugins;
-    using Core = Hearthstone_Deck_Tracker.API.Core;
-    using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
 
     /// <summary>
     /// Creates an instance of The Elven Minstrel Set List <see cref="IPlugin">Plug-in</see>

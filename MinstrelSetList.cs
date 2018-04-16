@@ -1,17 +1,14 @@
 ﻿namespace ElvenMinstrelSetList
 {
+    using Hearthstone_Deck_Tracker;
+    using Hearthstone_Deck_Tracker.API;
+    using Hearthstone_Deck_Tracker.Enums;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using System.Linq;
-    using Hearthstone_Deck_Tracker;
-    using Hearthstone_Deck_Tracker.API;
-    using Core = Hearthstone_Deck_Tracker.API.Core;
     using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
-    using Hearthstone_Deck_Tracker.Enums;
-    using System.Windows.Input;
-    using System.Collections.Generic;
-    using System;
+    using Core = Hearthstone_Deck_Tracker.API.Core;
 
     /// <summary>
     /// Elven Minstrel Set List

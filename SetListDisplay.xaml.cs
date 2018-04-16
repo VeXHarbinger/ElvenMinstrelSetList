@@ -1,29 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Core = Hearthstone_Deck_Tracker.API.Core;
-using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
-using Hearthstone_Deck_Tracker.Controls;
-using Hearthstone_Deck_Tracker;
-using Helper = Hearthstone_Deck_Tracker.Helper;
-using System.ComponentModel;
-using Hearthstone_Deck_Tracker.Annotations;
-using System.Runtime.CompilerServices;
-using System.Activities.Expressions;
-
-namespace ElvenMinstrelSetList
+﻿namespace ElvenMinstrelSetList
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
+    using Core = Hearthstone_Deck_Tracker.API.Core;
+    using Helper = Hearthstone_Deck_Tracker.Helper;
+
     /// <summary>
     /// Interaction logic for SetListDisplay.xaml
     /// </summary>
@@ -48,7 +32,16 @@ namespace ElvenMinstrelSetList
         /// </summary>
         public void DoMath()
         {
-            StatsLabel.Text = $"{DrawProbability(1)} / {DrawProbability(2)}";
+            // First, figure out our remaining card mix
+            DeckMixLabel.Text = $"Deck : {Cards.Count()}/{Core.Game.Player.DeckCount}";
+            // Next, figure out our odds
+            ProbabilityLabel.Text = $"Prob : 1: {DrawProbability(1)} / 2: {DrawProbability(2)}";
+            // Finally see if we have any large card counts
+            var match = Cards.OrderByDescending(c => c.Count).FirstOrDefault();
+            if (match.Count > 2)
+            {
+                ProbabilityLabel.Text += $" / {match.Count}: {DrawProbability(match.Count)}";
+            }
         }
 
         /// <summary>
@@ -66,7 +59,8 @@ namespace ElvenMinstrelSetList
         {
             Cards = new List<Card>();
             DrawPoolCardList.Update(Cards, true);
-            StatsLabel.Text = "";
+            ProbabilityLabel.Text = "";
+            DeckMixLabel.Text = "";
         }
 
         /// <summary>
@@ -88,10 +82,12 @@ namespace ElvenMinstrelSetList
             var card = new Card(HearthDb.Cards.Collectible.Values.FirstOrDefault(c => c.Id == Settings.Default.MinstrelCardId));
             if (card != null)
             {
+                TitleBarLabel.Visibility = Visibility.Hidden;
                 Cards = new List<Card>();
                 Cards.Add(card);
                 DrawPoolCardList.Update(Cards, true);
-                DoMath();
+                ProbabilityLabel.Text = $"Prob : 1: X / 2: Y";
+                DeckMixLabel.Text = $"Deck : M/D";
                 Visibility = Visibility.Visible;
             }
         }
@@ -133,11 +129,11 @@ namespace ElvenMinstrelSetList
         /// <summary>
         /// Calculates the Draw the probability.
         /// </summary>
-        /// <param name="drawing">The number of cards to draw.</param>
+        /// <param name="copies">The number of copies to draw from.</param>
         /// <returns>The Draw the probability.</returns>
-        internal Double DrawProbability(int drawing = 1)
+        internal Double DrawProbability(int copies = 1)
         {
-            return Math.Round(Helper.DrawProbability(drawing, Cards.Count(), 2), 2);
+            return Math.Round(Helper.DrawProbability(copies, Core.Game.Player.DeckCount, 2), 2);
         }
 
         /// <summary>
