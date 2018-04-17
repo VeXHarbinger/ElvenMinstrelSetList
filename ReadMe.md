@@ -5,7 +5,7 @@ It shows you the possible cards that could be drawn from your hand with the [Elv
 
 ## What this does
 
-![Display Example](https://github.com/VeXHarbinger/ElvenMinstrelSetList/images/DisplaySample.png)
+![Display Example](https://raw.githubusercontent.com/VeXHarbinger/ElvenMinstrelSetList/master/images/DisplaySample.png)
 
 * In the lower left hand corner you see the draw probability for a card that you have one or two copies of.
 
