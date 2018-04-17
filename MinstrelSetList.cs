@@ -21,12 +21,6 @@
         public SetListDisplay setListDisplay;
 
         /// <summary>
-        /// Gets the minstrel card object reference.
-        /// </summary>
-        /// <value>The minstrel card object reference.</value>
-        private static string minstrelCardId = "LOOT_211";
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="global::ElvenMinstrelSetList"/> class.
         /// </summary>
         public MinstrelSetList()
@@ -34,18 +28,13 @@
             // Create set List container
             setListDisplay = new SetListDisplay();
             ResetSetList();
-
+            // Add it to the overlay
             Core.OverlayCanvas.Children.Add(setListDisplay);
-            //Core.OverlayWindow
-
             Canvas.SetTop(setListDisplay, Settings.Default.SetlistTop);
             Canvas.SetRight(setListDisplay, Settings.Default.SetlistLeft);
 
             if (Config.Instance.HideInMenu && Core.Game.IsInMenu)
                 setListDisplay.Visibility = Visibility.Hidden;
-
-            //Settings.Default.PropertyChanged += SettingsChanged;
-            //SettingsChanged(null, null);
 
             // Game events
             GameEvents.OnGameStart.Add(ResetSetList);
@@ -64,7 +53,6 @@
         public void Dispose()
         {
             Core.OverlayCanvas.Children.Remove(setListDisplay);
-            //Input.Dispose();
         }
 
         /// <summary>
@@ -76,26 +64,11 @@
         }
 
         /// <summary>
-        /// Checks the card counts to see if we need to change the draw odds.
-        /// </summary>
-        private void CheckCounts()
-        {
-            var playerDeck = Core.Game.Player.PlayerCardList
-                  .Where(c => c.Type == "Minion" && (c.Count - c.InHandCount) > 0).ToList();
-
-            if (playerDeck.Count() != setListDisplay.Cards.Count())
-            {
-                setListDisplay.Reset();
-                setListDisplay.Update(playerDeck);
-            }
-        }
-
-        /// <summary>
         /// Called when [mouse off].
         /// </summary>
         private void OnMouseOff()
         {
-            setListDisplay.Visibility = Visibility.Hidden;
+            setListDisplay.Hide();
         }
 
         /// <summary>
@@ -104,10 +77,11 @@
         /// <param name="card">The card.</param>
         private void PlayerHandMouseOver(Card card)
         {
-            if (card.Id == minstrelCardId)
+            if (card.Id == Settings.Default.MinstrelCardId)
             {
-                CheckCounts();
-                setListDisplay.Show();
+                var playerDeck = Core.Game.Player.PlayerCardList
+                 .Where(c => c.Type == "Minion" && (c.Count - c.InHandCount) > 0).ToList();
+                setListDisplay.CheckDeckAndShow(playerDeck);
             }
         }
 

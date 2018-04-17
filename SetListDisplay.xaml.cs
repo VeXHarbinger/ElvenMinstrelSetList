@@ -25,7 +25,21 @@
         /// Gets or sets the list of <see cref="Card">Cards</see>
         /// </summary>
         /// <value>The list of <see cref="Card">Cards</see>.</value>
-        public List<Card> Cards { get; set; }
+        public List<Card> Cards { get; set; } = new List<Card>();
+
+        /// <summary>
+        /// Checks the current deck against our stored copy.
+        /// </summary>
+        /// <param name="currentCards">The current cards.</param>
+        public void CheckDeckAndShow(List<Card> currentCards)
+        {
+            if (Cards == null || currentCards.Count() != Cards.Count())
+            {
+                Reset();
+                Update(currentCards);
+            }
+            Show();
+        }
 
         /// <summary>
         /// Does the math.
@@ -33,14 +47,14 @@
         public void DoMath()
         {
             // First, figure out our remaining card mix
-            DeckMixLabel.Text = $"Deck : {Cards.Count()}/{Core.Game.Player.DeckCount}";
+            DeckMixLabel.Text = $"{Cards.Count()}/{Core.Game.Player.DeckCount}";
             // Next, figure out our odds
-            ProbabilityLabel.Text = $"Prob : 1: {DrawProbability(1)} / 2: {DrawProbability(2)}";
+            ProbabilityLabel.Text = $"P: {DrawProbability(1)}% / {DrawProbability(2)}%";
             // Finally see if we have any large card counts
             var match = Cards.OrderByDescending(c => c.Count).FirstOrDefault();
             if (match.Count > 2)
             {
-                ProbabilityLabel.Text += $" / {match.Count}: {DrawProbability(match.Count)}";
+                ProbabilityLabel.Text += $" / ({match.Count}) : {DrawProbability(match.Count)}%";
             }
         }
 
@@ -57,10 +71,10 @@
         /// </summary>
         public void Reset()
         {
-            Cards = new List<Card>();
-            DrawPoolCardList.Update(Cards, true);
+            DrawPoolCardList.Update(new List<Card>(), true);
             ProbabilityLabel.Text = "";
             DeckMixLabel.Text = "";
+            Hide();
         }
 
         /// <summary>
@@ -86,8 +100,8 @@
                 Cards = new List<Card>();
                 Cards.Add(card);
                 DrawPoolCardList.Update(Cards, true);
-                ProbabilityLabel.Text = $"Prob : 1: X / 2: Y";
-                DeckMixLabel.Text = $"Deck : M/D";
+                ProbabilityLabel.Text = $"P: W% / X";
+                DeckMixLabel.Text = $"D: M/D";
                 Visibility = Visibility.Visible;
             }
         }
@@ -111,14 +125,24 @@
         }
 
         /// <summary>
+        /// Calculates the Draw the probability.
+        /// </summary>
+        /// <param name="copies">The number of copies to draw from.</param>
+        /// <returns>The Draw the probability.</returns>
+        internal Double DrawProbability(int copies = 1)
+        {
+            return Math.Round(Helper.DrawProbability(copies, Core.Game.Player.DeckCount, 2) * 100, 2);
+        }
+
+        /// <summary>
         /// Updates the specified list of <see cref="Card">Cards</see>.
         /// </summary>
         /// <param name="cards">The list of <see cref="Card">Cards</see>.</param>
-        public void Update(List<Card> cards)
+        internal void Update(List<Card> cards)
         {
             foreach (var card in cards)
             {
-                if (!iUpdate(card))
+                if (!Update(card))
                 {
                     break;
                 }
@@ -127,20 +151,10 @@
         }
 
         /// <summary>
-        /// Calculates the Draw the probability.
-        /// </summary>
-        /// <param name="copies">The number of copies to draw from.</param>
-        /// <returns>The Draw the probability.</returns>
-        internal Double DrawProbability(int copies = 1)
-        {
-            return Math.Round(Helper.DrawProbability(copies, Core.Game.Player.DeckCount, 2), 2);
-        }
-
-        /// <summary>
         /// Adds the specified card to the display.
         /// </summary>
         /// <param name="card">The <see cref="Card"/>.</param>
-        internal bool iUpdate(Card card)
+        internal bool Update(Card card)
         {
             if (card == null || card.Type != "Minion")
             {

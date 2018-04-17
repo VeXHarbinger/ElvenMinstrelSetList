@@ -101,7 +101,7 @@
                     Settings.Default.SetlistTop = setListWindow.Top;
                     Settings.Default.SetlistLeft = setListWindow.Left;
                     Canvas.SetTop(setListDisplay, Settings.Default.SetlistTop);
-                    Canvas.SetRight(setListDisplay, Settings.Default.SetlistLeft);
+                    Canvas.SetLeft(setListDisplay, Settings.Default.SetlistLeft);
                     setListWindow.Close();
                 }
             }
