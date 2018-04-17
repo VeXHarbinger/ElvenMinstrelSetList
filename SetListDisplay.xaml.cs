@@ -49,7 +49,7 @@
             // First, figure out our remaining card mix
             DeckMixLabel.Text = $"{Cards.Count()}/{Core.Game.Player.DeckCount}";
             // Next, figure out our odds
-            ProbabilityLabel.Text = $"P: {DrawProbability(1)}% / {DrawProbability(2)}%";
+            ProbabilityLabel.Text = $"{DrawProbability(1)}% / {DrawProbability(2)}%";
             // Finally see if we have any large card counts
             var match = Cards.OrderByDescending(c => c.Count).FirstOrDefault();
             if (match.Count > 2)
@@ -100,8 +100,8 @@
                 Cards = new List<Card>();
                 Cards.Add(card);
                 DrawPoolCardList.Update(Cards, true);
-                ProbabilityLabel.Text = $"P: W% / X";
-                DeckMixLabel.Text = $"D: M/D";
+                ProbabilityLabel.Text = $"X% / Y";
+                DeckMixLabel.Text = $"M/D";
                 Visibility = Visibility.Visible;
             }
         }

@@ -11,8 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{3C0594A9-0246-4F2D-9E4C-B33B57F8FF4C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "downloadable", "downloadable", "{DA49C024-BCA1-4F29-A139-EA0232E4615B}"
+	ProjectSection(SolutionItems) = preProject
+		images\DisplaySample.png = images\DisplaySample.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,7 +31,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3C0594A9-0246-4F2D-9E4C-B33B57F8FF4C} = {FB8C699D-17AA-4708-A998-B849DECA9730}
-		{DA49C024-BCA1-4F29-A139-EA0232E4615B} = {FB8C699D-17AA-4708-A998-B849DECA9730}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27089C12-9654-45EF-B852-0DD3DC83FC5E}
