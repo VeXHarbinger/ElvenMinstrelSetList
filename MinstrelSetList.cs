@@ -64,6 +64,21 @@
         }
 
         /// <summary>
+        /// Check that we have default settings.
+        /// </summary>
+        private void CheckForDefaultSettings()
+        {
+            if (Settings.Default == null || Settings.Default.MinstrelCardId == null)
+            {
+                Settings.Default.MinstrelCardId = "LOOT_211";
+                Settings.Default.Scale = 100;
+                Settings.Default.Opacity = 100;
+                Settings.Default.SetlistTop = 400;
+                Settings.Default.SetlistLeft = 300;
+            }
+        }
+
+        /// <summary>
         /// Called when [mouse off].
         /// </summary>
         private void OnMouseOff()
@@ -80,7 +95,7 @@
             if (card.Id == Settings.Default.MinstrelCardId)
             {
                 var playerDeck = Core.Game.Player.PlayerCardList
-                 .Where(c => c.Type == "Minion" && (c.Count - c.InHandCount) > 0).ToList();
+                 .Where(c => c.Type == "Minion" && c.Count > 0).ToList();
                 setListDisplay.CheckDeckAndShow(playerDeck);
             }
         }
