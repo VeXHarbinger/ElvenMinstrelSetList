@@ -39,8 +39,6 @@
             // Game events
             GameEvents.OnGameStart.Add(ResetSetList);
             GameEvents.OnGameEnd.Add(ResetSetList);
-            GameEvents.OnTurnStart.Add(ResetSetList);
-            GameEvents.OnPlayerDraw.Add(ResetSetList);
 
             // Mouse
             GameEvents.OnPlayerHandMouseOver.Add(PlayerHandMouseOver);
@@ -96,26 +94,9 @@
             {
                 var playerDeck = Core.Game.Player.PlayerCardList
                  .Where(c => c.Type == "Minion" && c.Count > 0).ToList();
-                setListDisplay.CheckDeckAndShow(playerDeck);
+                setListDisplay.CheckDeck(playerDeck);
+                setListDisplay.Show();
             }
-        }
-
-        /// <summary>
-        /// Reset the widget data.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        private void ResetSetList(ActivePlayer obj)
-        {
-            ResetSetList();
-        }
-
-        /// <summary>
-        /// Reset the widget data.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        private void ResetSetList(Card obj)
-        {
-            ResetSetList();
         }
 
         /// <summary>

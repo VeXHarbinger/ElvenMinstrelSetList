@@ -1,9 +1,11 @@
 ﻿namespace ElvenMinstrelSetList
 {
+    using Hearthstone_Deck_Tracker.Controls;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
     using Core = Hearthstone_Deck_Tracker.API.Core;
     using Helper = Hearthstone_Deck_Tracker.Helper;
@@ -22,23 +24,26 @@
         }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="Card">Cards</see>
-        /// </summary>
-        /// <value>The list of <see cref="Card">Cards</see>.</value>
-        public List<Card> Cards { get; set; } = new List<Card>();
-
-        /// <summary>
         /// Checks the current deck against our stored copy.
         /// </summary>
         /// <param name="currentCards">The current cards.</param>
-        public void CheckDeckAndShow(List<Card> currentCards)
+        public void CheckDeck(List<Card> currentCards)
         {
-            if (Cards == null || currentCards.Count() != Cards.Count())
+            if (currentCards.Count() != CurrentCardCount())
             {
-                Reset();
-                Update(currentCards);
+                CleanCards(currentCards);
+                DrawPoolCardList.Update(currentCards, true);
+                DoMath();
             }
-            Show();
+        }
+
+        /// <summary>
+        /// The current minion card count.
+        /// </summary>
+        /// <returns></returns>
+        public int CurrentCardCount()
+        {
+            return DrawPoolCardList.Items.Count;
         }
 
         /// <summary>
@@ -47,11 +52,11 @@
         public void DoMath()
         {
             // First, figure out our remaining card mix
-            DeckMixLabel.Text = $"{Cards.Count()}/{Core.Game.Player.DeckCount}";
+            DeckMixLabel.Text = $"{CurrentCardCount()}/{Core.Game.Player.DeckCount}";
             // Next, figure out our odds
             ProbabilityLabel.Text = $"{DrawProbability(1)}% / {DrawProbability(2)}%";
             // Finally see if we have any large card counts
-            var match = Cards.OrderByDescending(c => c.Count).FirstOrDefault();
+            var match = DrawPoolCardList.Items.Cast<AnimatedCard>().OrderByDescending(c => c.Card.Count).FirstOrDefault().Card;
             if (match.Count > 2)
             {
                 ProbabilityLabel.Text += $" / ({match.Count}) : {DrawProbability(match.Count)}%";
@@ -82,7 +87,7 @@
         /// </summary>
         public void Show()
         {
-            if (Cards.Count >= 1)
+            if (CurrentCardCount() >= 1)
             {
                 Visibility = Visibility.Visible;
             }
@@ -97,7 +102,7 @@
             if (card != null)
             {
                 TitleBarLabel.Visibility = Visibility.Hidden;
-                Cards = new List<Card>();
+                var Cards = new List<Card>();
                 Cards.Add(card);
                 DrawPoolCardList.Update(Cards, true);
                 ProbabilityLabel.Text = $"X% / Y";
@@ -125,6 +130,32 @@
         }
 
         /// <summary>
+        /// Cleans the list of <see cref="Card">Cards</see>, by combining copies
+        /// </summary>
+        /// <param name="cards">The List of <see cref="Card">Cards</see>.</param>
+        internal void CleanCards(List<Card> cards)
+        {
+            var dups = cards.GroupBy(c => c.Id).Where(d => d.Count() > 1).ToList();
+
+            if (dups.Count() >= 1)
+            {
+                foreach (var d in dups.ToList())
+                {
+                    var count = 0;
+                    Card first = d.First();
+                    foreach (var i in d)
+                    {
+                        i.IsCreated = false;
+                        count += i.Count;
+                        i.Count = 0;
+                    }
+                    first.Count = count;
+                }
+            }
+            cards.RemoveAll(c => c.Count == 0);
+        }
+
+        /// <summary>
         /// Calculates the Draw the probability.
         /// </summary>
         /// <param name="copies">The number of copies to draw from.</param>
@@ -132,51 +163,6 @@
         internal Double DrawProbability(int copies = 1)
         {
             return Math.Round(Helper.DrawProbability(copies, Core.Game.Player.DeckCount, 2) * 100, 2);
-        }
-
-        /// <summary>
-        /// Updates the specified list of <see cref="Card">Cards</see>.
-        /// </summary>
-        /// <param name="cards">The list of <see cref="Card">Cards</see>.</param>
-        internal void Update(List<Card> cards)
-        {
-            foreach (var card in cards)
-            {
-                if (!Update(card))
-                {
-                    break;
-                }
-            }
-            DoMath();
-        }
-
-        /// <summary>
-        /// Adds the specified card to the display.
-        /// </summary>
-        /// <param name="card">The <see cref="Card"/>.</param>
-        internal bool Update(Card card)
-        {
-            if (card == null || card.Type != "Minion")
-            {
-                return false;
-            }
-
-            // Account for duplicates
-            var match = Cards.FirstOrDefault(c => c.Name == card.Name);
-
-            if (match != null)
-            {
-                card.Count++;
-            }
-            else
-            {
-                Cards.Add(card);
-            }
-
-            // Update View Cards.Add(card);
-            DrawPoolCardList.Update(Cards, false);
-
-            return true;
         }
     }
 }
