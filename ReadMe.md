@@ -1,4 +1,8 @@
-# The Elven Minstrel Set List 
+# This has been incorporated into [DrawPool](https://github.com/VeXHarbinger/DrawPool)
+
+So go there, that's where the goods are.
+
+## The Elven Minstrel Set List 
 
 This is a plug-in for the [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker).
 It shows you the possible cards that could be drawn from your hand with the [Elven Minstrel](https://hearthstone.gamepedia.com/Elven_Minstrel).
